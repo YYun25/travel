@@ -92,13 +92,16 @@
     .action-row { margin-top: 30px; display: flex; gap: 15px; justify-content: center; padding-top: 20px; border-top: 1px solid #e7edf5; }
 
     /* --- Private Driver 交通服務區塊 --- */
-    .driver-section { background: #fff; }
-    .driver-grid { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; margin-bottom: 40px;}
+    .driver-section { background: #fff; padding: 72px 7%; }
+    .driver-grid { max-width: 1120px; margin: 0 auto 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; text-align: center; }
     .car-type { padding: 30px; border: 1px solid #e7edf5; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,.05); }
     .car-type h3 { font-size: 24px; color: #d71920; margin-bottom: 10px; }
     .car-type p { color: #586579; font-weight: bold; }
-    .service-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 800px; margin: 0 auto; }
-    .service-tag { background: #f3f7fb; padding: 10px 20px; border-radius: 50px; font-weight: bold; color: #09264a; font-size: 14px; }
+    .transport-content { text-align: center; max-width: 900px; margin: 0 auto; }
+    .service-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; }
+    .service-tag { background: #f3f7fb; padding: 10px 20px; border-radius: 50px; font-weight: bold; color: #09264a; font-size: 14px; border: 1px solid #e7edf5; }
+    .driver-description { margin-bottom: 30px; color: #435166; line-height: 1.6; font-size: 16px; }
+    .driver-cta { text-align: center; }
 
     /* --- About Us 區塊 --- */
     .about-section { background: #f3f7fb; text-align: center; }
@@ -162,7 +165,7 @@
   <!-- 2. Hero Banner 區塊：加入副標題分類 -->
   <header class="hero" id="home">
     <div class="hero-inner">
-      <div class="script">One Island. Endless Experiences.</div>
+      <div class="script">Langkawi Shore Excursions <br> One Island. Endless Experiences.</div>
       <h1>Discover Langkawi<br>Through Local Eyes</h1>
       <div class="hero-sub">PRIVATE TOURS | SHARED TOURS | GERMAN-SPEAKING TOURS</div>
       <p>Explore Langkawi's most famous attractions with convenient cruise port pickup, experienced local hosts, and guaranteed return to your ship.</p>
@@ -317,15 +320,14 @@
             <div class="amt">USD 140 <span style="font-size:14px;color:#586579;font-weight:normal;">/ Person</span></div>
             <p style="margin-bottom:15px; font-size:14px; color:#586579;">Our most popular shore excursion package.</p>
             <ul class="feature-list">
-              <li class="inc">Cruise Port Pickup & Drop-off</li>
-              <li class="inc">Shared Air-Conditioned Transport</li>
-              <li class="inc">English-Speaking Tour Coordinator</li>
-              <li class="inc">Eagle Square</li>
-              <li class="inc">Durian Perangin Waterfalls</li>
-              <li class="inc">Tanjung Rhu Beach</li>
-              <li class="inc">Langkawi Cable Car Ticket Included</li>
-              <li class="inc">Langkawi Sky Bridge Ticket Included</li>
-              <li class="inc">Kilim Mangrove Boat Tour Ticket Included</li>
+              <li class="inc">Shared with Other Travelers</li>
+              <li class="inc">Cruise Port Pickup Included</li>
+              <li class="inc">Cable Car Ticket Included</li>
+              <li class="inc">Sky Bridge Ticket Included</li>
+              <li class="inc">Mangrove Boat Tour Included</li>
+              <li class="inc">Air-Conditioned Transport Included</li>
+              <li class="inc">English-Speaking Guide Included</li>
+              <li class="inc">Bottled Water Included</li>
             </ul>
           </div>
 
@@ -343,20 +345,23 @@
   <section class="tour-page" id="private-page">
     <div class="subpage-layout">
       <div class="subpage-main">
-        <h3 style="color:#d71920; border-bottom:none;">Private Tours - USD 160 / Pax</h3>
+        <h3 style="color:#d71920; border-bottom:none;">Private Tours - USD 165 Per Person</h3>
         <p style="font-size:18px; font-weight:bold; margin-bottom:20px;">Enjoy a personalized and flexible experience.</p>
         
         <ul class="feature-list" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <li class="inc">Private Vehicle & Private Driver</li>
-          <li class="inc">Cruise Port Pickup & Drop-off</li>
-          <li class="inc">Flexible Schedule</li>
-          <li class="inc">No Sharing with Other Guests</li>
-          <li class="inc">Eagle Square & Tanjung Rhu Beach</li>
-          <li class="inc">Durian Perangin Waterfalls</li>
+          <li class="inc">Private Tour (No Sharing with Other Travelers)</li>
+          <li class="inc">Private Vehicle & Driver</li>
+          <li class="inc">Cruise Port / Hotel Pickup & Drop-off Included</li>
           <li class="inc">Langkawi Cable Car Ticket Included</li>
           <li class="inc">Langkawi Sky Bridge Ticket Included</li>
-          <li class="inc">Kilim Mangrove Boat Tour Ticket Included</li>
+          <li class="inc">Mangrove Boat Tour Included</li>
+          <li class="inc">Eagle Square Visit Included</li>
+          <li class="inc">Waterfall Visit Included</li>
+          <li class="inc">English-Speaking Driver Included</li>
+          <li class="inc">Bottled Water Included</li>
         </ul>
+
+        <p style="color:#586579; margin-bottom:25px; font-size:16px;">Perfect for: Families, couples, and small groups seeking a flexible and personalized Langkawi experience at their own pace.</p>
 
         <div class="action-row">
           <a class="btn btn-dark" href="#booking">Book Now</a>
@@ -370,9 +375,10 @@
   <section class="tour-page" id="german-page">
     <div class="subpage-layout">
       <div class="subpage-main">
-        <h3 style="color:#d71920; border-bottom:none;">Langkawi Landausflug mit deutschsprachiger Reiseleitung - EUR 120 / Pax</h3>
+        <h3 style="color:#d71920; border-bottom:none;">German Speaking Sharing Tour - EURO 140 Per Person</h3>
         <p style="color:#586579; margin-bottom:25px; font-size:16px;">Erleben Sie die schönsten Sehenswürdigkeiten Langkawis auf einer komfortablen Gruppenreise mit einer professionellen deutschsprachigen Reiseleitung.</p>
         
+        <!--行程安排-->
         <div class="german-itinerary">
           <h4>Reiseverlauf</h4>
           <p><strong>Abholung am Kreuzfahrthafen Langkawi</strong>Rechtzeitige Abholung und Rücktransfer am Kreuzfahrthafen.</p>
@@ -383,6 +389,24 @@
           <p><strong>Rückfahrt zum Kreuzfahrthafen</strong>Rechtzeitige Rückkehr vor der Abfahrt Ihres Schiffes garantiert.</p>
         </div>
 
+        <!--費用內容 德文-->
+        <div class="german-itinerary">
+          <h4>Einzelheiten zu den Gebühren</h4>
+          <ul class="feature-list" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+            <li class="inc">Deutschsprachiger Reiseleiter inklusive</li>
+            <li class="inc">Gemeinsame Tour mit anderen Reisenden (Sharing Tour)</li>
+            <li class="inc">Abholung und Rücktransfer vom Kreuzfahrthafen inklusive</li>
+            <li class="inc">Klimatisierter Transport inklusive</li>
+            <li class="inc">Langkawi Seilbahn Ticket inklusive</li>
+            <li class="inc">Sky Bridge Ticket inklusive</li>
+            <li class="inc">Mangroven-Bootstour inklusive</li>
+            <li class="inc">Besuch des Eagle Square inklusive</li>
+            <li class="inc">Besuch des Wasserfalls inklusive</li>
+            <li class="inc">Trinkwasser inklusive</li>
+          </ul>
+        </div>
+
+        <!--為甚麼選擇這行程-->
         <div class="german-itinerary">
           <h4>Warum diese Tour wählen?</h4>
           <ul class="feature-list" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
@@ -393,6 +417,9 @@
             <li class="inc">Lokaler Veranstalter mit langjähriger Erfahrung</li>
           </ul>
         </div>
+
+        <p style="color:#586579; margin-bottom:25px; font-size:16px;">Perfekt für deutschsprachige Reisende, die Langkawi gemeinsam mit anderen Gästen entdecken und dabei von einem deutschsprachigen Reiseleiter begleitet werden möchten.</p>
+
 
         <div class="action-row">
           <a class="btn btn-dark" href="#booking">Book Now</a>
@@ -405,36 +432,34 @@
   <!-- 交通與包車服務 (Private Driver & Transport) -->
   <section class="driver-section" id="transport">
     <div class="section-title">
-      <small>Transport Services</small>
-      <h2>Private Driver & Car Rental</h2>
-    </div>
-    
-    <div class="driver-grid">
-      <div class="car-type">
-        <h3>Sedan</h3>
-        <p>Comfortable ride for 1-3 passengers</p>
-      </div>
-      <div class="car-type">
-        <h3>MPV</h3>
-        <p>Spacious travel for families (4-6 pax)</p>
-      </div>
-      <div class="car-type">
-        <h3>Van</h3>
-        <p>Perfect for larger groups</p>
-      </div>
+        <small>Transport Services</small>
+        <h2>Private Driver & Car Rental</h2>
     </div>
 
-    <div class="service-tags">
-      <div class="service-tag">Airport Transfer</div>
-      <div class="service-tag">Cruise Port Transfer</div>
-      <div class="service-tag">Half Day Charter</div>
-      <div class="service-tag">Full Day Charter</div>
-      <div class="service-tag">MPV Rental with Driver</div>
-      <div class="service-tag">Car Rental Arrangement</div>
+    <div class="driver-grid">
+        <div class="car-type"><h3>Car</h3><p>1–3 Persons</p><p><strong>USD 90 Per Car</strong></p></div>
+        <div class="car-type"><h3>MPV</h3><p>1–5 Persons</p><p><strong>USD 130 Per MPV</strong></p></div>
+        <div class="car-type"><h3>Van</h3><p>1–8 Persons</p><p><strong>USD 200 Per Van</strong></p></div>
+        <div class="car-type"><h3>Mini Bus</h3><p>1–14 Persons</p><p><strong>USD 350 Per Mini Bus</strong></p></div>
     </div>
-    
-    <div style="text-align:center; margin-top:30px;">
-        <a class="btn btn-green" href="https://wa.me/60123659345" style="padding:15px 40px; font-size:16px;">Ask for Driver Service on WhatsApp</a>
+
+    <div class="transport-content">
+        <div class="service-tags">
+            <span class="service-tag">Private Vehicle (No Sharing)</span>
+            <span class="service-tag">Professional Local Driver</span>
+            <span class="service-tag">Explore at Your Own Pace</span>
+            <span class="service-tag">Flexible Schedule</span>
+            <span class="service-tag">Cruise/Airport/Hotel Pickup</span>
+            <span class="service-tag">Bottled Water Included</span>
+        </div>
+
+        <p class="driver-description">
+            Perfect for travelers who want the freedom to discover Langkawi their way. Follow our recommended local itinerary or customize your own route and explore the island at a comfortable pace with a dedicated private driver.
+        </p>
+
+        <div class="driver-cta">
+            <a class="btn btn-green" href="https://wa.me/60123659345">Ask for Driver Service on WhatsApp</a>
+        </div>
     </div>
   </section>
 
@@ -471,6 +496,18 @@
         <div class="form-group">
           <label for="contact">PHONE NUMBER / WHATSAPP *</label>
           <input type="tel" id="contact" class="form-control" placeholder="e.g., +1 234 567 890" required>
+        </div>
+
+        <div class="form-group"><label>DATE *</label>
+            <input type="date" class="form-control" required>
+        </div>
+        
+        <div class="form-group"><label>TIME *</label>
+            <input type="time" class="form-control" required>
+        </div>
+        
+        <div class="form-group"><label>PRICE *</label>
+            <input type="text" class="form-control" required>
         </div>
 
         <div class="form-group">
