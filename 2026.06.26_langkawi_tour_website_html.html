@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LangkawiByLocals | Shore Excursions</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
     /* --- 基礎設定 --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,7 +23,8 @@
     /* --- Hero Banner 區塊 (使用 5.png 海岸風景) --- */
     .hero { min-height: 690px; padding: 120px 6% 110px; color: #09264a; position: relative; overflow: hidden; background: linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.68) 34%, rgba(255,255,255,.08) 62%), url('demo-main/demo-main/5.png') no-repeat center center/cover; }
     .hero-inner { max-width: 650px; margin-left: 7%; }
-    .script { font-family: Georgia, serif; font-style: italic; color: #e31b23; font-size: 26px; margin-bottom: 10px; }
+    .hero-title { font-family: Georgia, serif; font-style: italic; color: #e31b23; font-size: 40px;  margin-bottom: 5px; font-weight: bold;}
+    .hero-subtitle { font-family: Georgia, serif; font-style: italic; color: #e31b23; font-size: 26px; margin-bottom: 10px; }
     .hero h1 { font-size: clamp(45px, 6vw, 72px); line-height: 1.05; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; color: #09264a; }
     .hero-sub { color: #d71920; font-size: 16px; font-weight: 900; letter-spacing: 1px; margin: 15px 0; }
     .hero p { margin: 22px 0; font-size: 20px; color: #0b1f3d; max-width: 520px; font-weight: bold; }
@@ -103,6 +105,9 @@
     .driver-description { margin-bottom: 30px; color: #435166; line-height: 1.6; font-size: 16px; }
     .driver-cta { text-align: center; }
 
+    /* 強制統一車輛圖片顯示尺寸 */
+    .car-type img { width: 100%; height: 150px; object-fit: contain; object-position: center;  background-color: #ffffff; border-radius: 8px; }
+
     /* --- About Us 區塊 --- */
     .about-section { background: #f3f7fb; text-align: center; }
     .about-container { max-width: 800px; margin: 0 auto; }
@@ -111,6 +116,8 @@
     .about-features div { background: #fff; padding: 15px 25px; border-radius: 8px; font-weight: bold; color: #09264a; box-shadow: 0 5px 15px rgba(0,0,0,.05); }
 
     /* --- 預約表單 Booking Form --- */
+    /* 強制所有輸入框、下拉選單的樣式統一 */
+    input, select, textarea {width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #d5dbe3; border-radius: 6px; font-size: 15px;}
     .form-section { background: linear-gradient(to bottom, #F8F9FA 0%, rgba(233, 241, 245, 0.88) 90px, rgba(220, 231, 238, 0.94) 100%), url('demo-main/demo-main/5.png') no-repeat center center/cover; padding: 80px 7%; }
     .form-container { max-width: 700px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 15px 40px rgba(0, 38, 74, 0.08); border-top: 5px solid #09264a; }
     .form-container h2 { text-align: center; font-size: 32px; margin-bottom: 10px; color: #09264a; }
@@ -121,6 +128,16 @@
     .form-control:focus { outline: none; border-color: #09264a; }
     select.form-control { appearance: none; background: url("data:image/svg+xml;utf8,<svg fill='%2309264a' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 15px center; background-color: #fff; }
     textarea.form-control { resize: vertical; min-height: 100px; }
+    /* --- 人數加減按鈕樣式 --- */
+    .quantity-wrapper { display: flex; align-items: center; gap: 10px; }
+    .qty-btn { background: #f3f7fb; border: 1px solid #d5dbe3; color: #09264a; font-size: 24px; font-weight: bold; width: 50px; height: 50px; border-radius: 6px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; padding-bottom: 4px; }
+    .qty-btn:hover { background: #e7edf5; border-color: #09264a; }
+    .qty-input { width: 90px; text-align: center; font-size: 18px; font-weight: bold; }
+    
+    /* 隱藏原生數字輸入框的上下箭頭 */
+    input[type=number]::-webkit-outer-spin-button, 
+    input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
     .submit-btn { width: 100%; background: #d71920; color: #fff; border: none; padding: 16px; font-size: 16px; font-weight: 900; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
     .submit-btn:hover { background: #b5151b; }
 
@@ -146,7 +163,7 @@
 
   <!-- 1. 導覽列調整：新增 About 與 Book Your Tour 按鈕 -->
   <nav class="nav">
-    <img class="logo" src="demo-main/demo-main/138782.jpg" alt="Jara Holidays Logo" />
+    <img class="logo" src="demo-main/demo-main/logo.png" alt="Jara Holidays Logo" />
     <div class="nav-menu">
       <a href="#home">Home</a>
       <a href="#highlights">Highlights</a>
@@ -165,9 +182,10 @@
   <!-- 2. Hero Banner 區塊：加入副標題分類 -->
   <header class="hero" id="home">
     <div class="hero-inner">
-      <div class="script">Langkawi Shore Excursions <br> One Island. Endless Experiences.</div>
+      <div class="hero-title">Langkawi Shore Excursions</div>
+      <div class="hero-subtitle">One Island. Endless Experiences.</div>
       <h1>Discover Langkawi<br>Through Local Eyes</h1>
-      <div class="hero-sub">PRIVATE TOURS | SHARED TOURS | GERMAN-SPEAKING TOURS</div>
+      <div class="hero-sub">PRIVATE TOURS | SHARED TOURS | GERMAN-SPEAKING TOURS | PRIVATE DRIVER & TRANSPORT</div>
       <p>Explore Langkawi's most famous attractions with convenient cruise port pickup, experienced local hosts, and guaranteed return to your ship.</p>
       <div class="hero-actions">
         <a class="btn btn-dark" href="#booking">Book Your Tour</a>
@@ -227,7 +245,7 @@
     <div class="tour-grid">
       <!-- A. Shared Tour -->
       <article class="tour-card">
-        <img src="demo-main/demo-main/4.png" alt="Shared Tours" />
+        <img src="demo-main/demo-main/change pic_0.png" alt="Shared Tours" />
         <div class="tour-body">
           <h3>A. Shared Tour</h3>
           <span class="price-tag">From USD 45</span>
@@ -239,10 +257,10 @@
       <!-- B. Shared Tour with Tickets (標註 Most Popular) -->
       <article class="tour-card">
         <span class="popular-tag">Most Popular</span>
-        <img src="demo-main/demo-main/12.png" alt="Shared Tours with Tickets" />
+        <img src="demo-main/demo-main/Sharing tours.png" alt="Shared Tours with Tickets" />
         <div class="tour-body">
           <h3>B. Shared Tour with Tickets</h3>
-          <span class="price-tag">USD 120 / Pax</span>
+          <span class="price-tag">USD 140 / Pax</span>
           <p>Our most popular shore excursion package including all major tickets.</p>
           <a class="btn btn-dark" href="#sharing-page">View Details</a>
         </div>
@@ -253,7 +271,7 @@
         <img src="demo-main/demo-main/3.png" alt="Private Tours" />
         <div class="tour-body">
           <h3>C. Private Tour</h3>
-          <span class="price-tag">USD 160 / Pax</span>
+          <span class="price-tag">USD 165 / Pax</span>
           <p>Enjoy a personalized and flexible experience with a private vehicle.</p>
           <a class="btn btn-dark" href="#private-page">View Details</a>
         </div>
@@ -264,7 +282,7 @@
         <img src="demo-main/demo-main/1.png" alt="German Speaking Tours" />
         <div class="tour-body">
           <h3>D. German-Speaking Tour</h3>
-          <span class="price-tag">EUR 120 / Pax</span>
+          <span class="price-tag">EUR 140 / Pax</span>
           <p>Explore Langkawi with a professional live German-speaking guide.</p>
           <a class="btn btn-dark" href="#german-page">View Details</a>
         </div>
@@ -298,6 +316,7 @@
           <div class="price-box">
             <h4>Shared Tours without ticket</h4>
             <div class="amt">USD 45 <span style="font-size:14px;color:#586579;font-weight:normal;">/ Person</span></div>
+            <div style="font-size: 14px; font-weight: bold; color: #d71920; margin-bottom: 15px;">Child: USD 35 / Person</div>
             <p style="margin-bottom:15px; font-size:14px; color:#586579;">Perfect for budget-conscious travelers.</p>
             <ul class="feature-list">
               <li class="inc">Cruise Port Pickup & Drop-off</li>
@@ -311,6 +330,11 @@
               <li class="exc">No Entrance Tickets Included</li>
               <li class="exc">No Mangrove Boat Tour Included</li>
             </ul>
+            <div style="margin-top: 15px; font-size: 13px; color: #333; border-top: 1px solid #ddd; padding-top: 10px;">
+              <p><strong>Duration:</strong> Approx. 6 hours</p>
+              <p><strong>Pickup/Drop-off:</strong> Langkawi cruise pier - Taxi Paging Area</p>
+              <p><strong>Time:</strong> 09:00 a.m. & 02:00 p.m.</p>
+            </div>
           </div>
 
           <!-- Most Popular Shared Tour -->
@@ -318,6 +342,7 @@
             <span style="background:#d71920; color:#fff; font-size:12px; padding:3px 8px; border-radius:4px; font-weight:bold; display:inline-block; margin-bottom:5px;">Most Popular</span>
             <h4>Shared Tours with ticket</h4>
             <div class="amt">USD 140 <span style="font-size:14px;color:#586579;font-weight:normal;">/ Person</span></div>
+            <div style="font-size: 14px; font-weight: bold; color: #d71920; margin-bottom: 15px;">Child: USD 125 / Person</div>
             <p style="margin-bottom:15px; font-size:14px; color:#586579;">Our most popular shore excursion package.</p>
             <ul class="feature-list">
               <li class="inc">Shared with Other Travelers</li>
@@ -329,6 +354,11 @@
               <li class="inc">English-Speaking Guide Included</li>
               <li class="inc">Bottled Water Included</li>
             </ul>
+            <div style="margin-top: 15px; font-size: 13px; color: #333; border-top: 1px solid #ddd; padding-top: 10px;">
+              <p><strong>Duration:</strong> Approx. 6 hours</p>
+              <p><strong>Pickup/Drop-off:</strong> Langkawi cruise pier - Taxi Paging Area</p>
+              <p><strong>Time:</strong> 09:00 a.m. & 02:00 p.m.</p>
+            </div>
           </div>
 
         </div>
@@ -346,6 +376,7 @@
     <div class="subpage-layout">
       <div class="subpage-main">
         <h3 style="color:#d71920; border-bottom:none;">Private Tours - USD 165 Per Person</h3>
+        <p style="font-size: 14px; font-weight: bold; color: #d71920; margin-bottom: 20px;">Child: USD 130 / Person</p>
         <p style="font-size:18px; font-weight:bold; margin-bottom:20px;">Enjoy a personalized and flexible experience.</p>
         
         <ul class="feature-list" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
@@ -360,6 +391,12 @@
           <li class="inc">English-Speaking Driver Included</li>
           <li class="inc">Bottled Water Included</li>
         </ul>
+
+        <div style="margin-top: 25px; padding: 15px; background-color: #f3f7fb; border-radius: 8px; font-size: 14px; color: #435166;">
+          <p><strong>Duration:</strong> Approx. 6 hours</p>
+          <p><strong>Pickup & Drop-off:</strong> Langkawi cruise pier - Taxi Paging Areap>
+          <p><strong>Pick up time:</strong> 08:00 a.m. & 09:00 a.m.</p>
+        </div>
 
         <p style="color:#586579; margin-bottom:25px; font-size:16px;">Perfect for: Families, couples, and small groups seeking a flexible and personalized Langkawi experience at their own pace.</p>
 
@@ -376,6 +413,7 @@
     <div class="subpage-layout">
       <div class="subpage-main">
         <h3 style="color:#d71920; border-bottom:none;">German Speaking Sharing Tour - EURO 140 Per Person</h3>
+        <p style="font-size: 14px; font-weight: bold; color: #d71920; margin-bottom: 20px;">Kind: EUR 110 / Person</p>
         <p style="color:#586579; margin-bottom:25px; font-size:16px;">Erleben Sie die schönsten Sehenswürdigkeiten Langkawis auf einer komfortablen Gruppenreise mit einer professionellen deutschsprachigen Reiseleitung.</p>
         
         <!--行程安排-->
@@ -418,6 +456,12 @@
           </ul>
         </div>
 
+        <div style="margin-top: 25px; padding: 15px; background-color: #f3f7fb; border-radius: 8px; font-size: 14px; color: #435166;">
+          <p><strong>Dauer:</strong> Ca. 6 Stunden</p>
+          <p><strong>Abholung & Rücktransfer:</strong> Langkawi Kreuzfahrthafen - Taxi Paging Area</p>
+          <p><strong>Zeiten:</strong> 08:00 Uhr & 09:00 Uhr</p>
+        </div>
+
         <p style="color:#586579; margin-bottom:25px; font-size:16px;">Perfekt für deutschsprachige Reisende, die Langkawi gemeinsam mit anderen Gästen entdecken und dabei von einem deutschsprachigen Reiseleiter begleitet werden möchten.</p>
 
 
@@ -433,14 +477,29 @@
   <section class="driver-section" id="transport">
     <div class="section-title">
         <small>Transport Services</small>
-        <h2>Private Driver & Car Rental</h2>
+        <h2>Private Driver</h2>
     </div>
 
     <div class="driver-grid">
-        <div class="car-type"><h3>Car</h3><p>1–3 Persons</p><p><strong>USD 90 Per Car</strong></p></div>
-        <div class="car-type"><h3>MPV</h3><p>1–5 Persons</p><p><strong>USD 130 Per MPV</strong></p></div>
-        <div class="car-type"><h3>Van</h3><p>1–8 Persons</p><p><strong>USD 200 Per Van</strong></p></div>
-        <div class="car-type"><h3>Mini Bus</h3><p>1–14 Persons</p><p><strong>USD 350 Per Mini Bus</strong></p></div>
+        <div class="car-type">
+          <img src="demo-main/demo-main/vios_0.png" alt="Car" style="width:100%; border-radius:8px; margin-bottom:10px;">
+          <h3>Car</h3><p>1-3 pax</p><p><strong>USD 100 Per Car</strong></p>
+        </div>
+
+        <div class="car-type">
+          <img src="demo-main/demo-main/veloz_0.png" alt="MPV" style="width:100%; border-radius:8px; margin-bottom:10px;">
+          <h3>MPV</h3><p>4–5 pax</p><p><strong>USD 150 Per MPV</strong></p>
+        </div>
+
+        <div class="car-type">
+          <img src="demo-main/demo-main/van_0.png" alt="Van" style="width:100%; border-radius:8px; margin-bottom:10px;">
+          <h3>Van</h3><p>8–10 pax</p><p><strong>USD 250 Per Van</strong></p>
+        </div>
+
+        <div class="car-type">
+          <img src="demo-main/demo-main/bus_0.png" alt="Mini Bus" style="width:100%; border-radius:8px; margin-bottom:10px;">
+          <h3>Mini Bus</h3><p>10–14 pax</p><p><strong>USD 350 Per Mini Bus</strong></p>
+        </div>
     </div>
 
     <div class="transport-content">
@@ -459,6 +518,12 @@
         <p class="driver-description">
             Perfect for travelers who want the freedom to discover Langkawi their way. Follow our recommended local itinerary or customize your own route and explore the island at a comfortable pace with a dedicated private driver.
         </p>
+
+        <div class="info-box" id="driver-info" style="margin: 20px 0; padding: 15px; background-color: #f3f7fb; border-left: 5px solid #d71920; border-radius: 4px; font-size: 14px; color: #435166;">
+          <p><strong>Rental Duration:</strong> 7 hours </p>
+          <p><strong>Available Start Time:</strong> 07:00 a.m. – 02:00 p.m. </p>
+          <p><strong>Service Deadline:</strong> Must end by 09:00 p.m. </p>
+        </div>
 
         <div class="driver-cta">
             <a class="btn btn-green" href="https://wa.me/60123659345">Ask for Driver Service on WhatsApp</a>
@@ -490,52 +555,57 @@
       <h2>Book Your Tour Now!</h2>
       <p>Fill out the inquiry form below, and we will contact you shortly.</p>
       
-      <form action="#" method="POST" onsubmit="alert('Thank you for your inquiry! Our local travel experts will contact you via WhatsApp shortly.'); return false;">
-        <div class="form-group">
-          <label for="name">FULL NAME *</label>
-          <input type="text" id="name" class="form-control" placeholder="e.g., John Doe" required>
+      <form action="#" method="POST" id="booking-form">
+        <div class="form-group"><label>FULL NAME *</label><input type="text" id="name" class="form-control" required></div>
+        <div class="form-group"><label>PHONE NUMBER / WHATSAPP *</label><input type="tel" id="contact" class="form-control" required></div>
+        <div class="form-group"><label>EMAIL ADDRESS *</label><input type="email" id="email" class="form-control" required></div>
+        <div class="form-group"><label>PASSPORT NUMBER *</label><input type="text" id="passport" class="form-control" pattern="[a-zA-Z0-9]+" title="Alphanumeric only" required></div>
+
+        <div style="border: 1px solid #d5dbe3; padding: 20px; border-radius: 6px; margin-bottom: 20px; background-color: #fcfcfc;">
+          <label style="font-weight:bold; color:#09264a; margin-bottom:15px; display:block; font-size:16px;">ARRIVAL INFORMATION *</label>
+          
+          <div class="form-group">
+            <label for="cruise-ship" style="font-size: 13px; font-weight: bold; color: #586579;">Cruise ship:</label>
+            <input type="text" id="cruise-ship" class="form-control" placeholder="e.g., Celebrity Millennium" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="disembark-time" style="font-size: 13px; font-weight: bold; color: #586579;">Disembarkation time:</label>
+            <input type="text" id="disembark-time" class="form-control" placeholder="e.g., 08:30" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="dropoff" style="font-size: 13px; font-weight: bold; color: #586579;">Drop off location:</label>
+            <input type="text" id="dropoff" class="form-control" placeholder="e.g., Langkawi Cruise Terminal" required>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="contact">PHONE NUMBER / WHATSAPP *</label>
-          <input type="tel" id="contact" class="form-control" placeholder="e.g., +1 234 567 890" required>
-        </div>
-
-        <div class="form-group"><label>DATE *</label>
-            <input type="date" class="form-control" required>
-        </div>
-        
-        <div class="form-group"><label>TIME *</label>
-            <input type="time" class="form-control" required>
-        </div>
-        
-        <div class="form-group"><label>PRICE *</label>
-            <input type="text" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-          <label for="email">EMAIL ADDRESS *</label>
-          <input type="email" id="email" class="form-control" placeholder="e.g., johndoe@example.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="tour-type">PREFERRED SHORE EXCURSION *</label>
+        <div class="form-group"><label>PREFERRED SHORE EXCURSION *</label>
           <select id="tour-type" class="form-control" required>
             <option value="" disabled selected>Please select an option...</option>
             <option value="shared_basic">Shared Tour without ticket (USD 45)</option>
-            <option value="shared_ticket">Shared Tour with tickets (USD 120)</option>
-            <option value="private">Private Tour (USD 160)</option>
-            <option value="german">German-Speaking Tour (EUR 120)</option>
+            <option value="shared_ticket">Shared Tour with tickets (USD 140)</option>
+            <option value="private">Private Tour (USD 165)</option>
+            <option value="german">German-Speaking Tour (EUR 140)</option>
             <option value="driver">Private Driver / Transport Service</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <label for="message">SPECIAL REQUIREMENTS & REMARKS</label>
-          <textarea id="message" class="form-control" placeholder="Tell us your ship name, arrival/departure schedules, dietary restrictions, or total guests..."></textarea>
+        <div class="form-group"><label>PRIVATE DRIVER / VEHICLE OPTION *</label>
+          <select id="vehicle" class="form-control" disabled><option value="none" selected>None</option><option value="car">Car – USD 100</option><option value="mpv">MPV – USD 150</option><option value="van">Van – USD 250</option><option value="minibus">Mini Bus – USD 350</option></select>
         </div>
 
-        <button type="submit" class="submit-btn">Send Booking Inquiry</button>
+        <div class="form-group"><label>DATE *</label><input type="text" id="tour-date" class="form-control" placeholder="YYYY/MM/DD" required></div>
+        <div class="form-group"><label>TIME *</label><select id="tour-time" class="form-control" required><option value="" disabled selected>Please select a time...</option></select></div>
+        <div id="info-box" style="margin-bottom: 20px; padding: 15px; background-color: #f3f7fb; border-left: 5px solid #d71920; display: none; font-size: 14px;"></div>
+
+        <div style="display: flex; gap: 20px;">
+          <div class="form-group" style="flex: 1;"><label>ADULTS *</label><div class="quantity-wrapper"><button type="button" class="qty-btn minus-adult">-</button><input type="number" id="adults" class="form-control qty-input" value="1" min="1"><button type="button" class="qty-btn plus-adult">+</button></div></div>
+          <div class="form-group" style="flex: 1;"><label>CHILDREN</label><div class="quantity-wrapper"><button type="button" class="qty-btn minus-child">-</button><input type="number" id="children" class="form-control qty-input" value="0" min="0"><button type="button" class="qty-btn plus-child">+</button></div></div>
+        </div>
+
+        <div class="form-group"><label>PRICE *</label><input type="text" id="total-price" class="form-control" placeholder="Auto-calculated" readonly></div>
+        <div class="form-group"><label>SPECIAL REQUIREMENTS & REMARKS</label><textarea id="message" class="form-control" placeholder="Tell us your ship name, arrival/departure schedules, dietary restrictions, or total guests..."></textarea></div>
+        <button type="submit" class="submit-btn">SEND BOOKING INQUIRY</button>
       </form>
     </div>
   </section>
@@ -546,6 +616,60 @@
     <p>Email: jaraholidays@gmail.com | WhatsApp: +60 12-365 9345</p>
     <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">ON TIME RETURN TO YOUR SHIP IS OUR PROMISE. Relax and enjoy your day!</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+      const tourType = document.getElementById('tour-type'), vehicle = document.getElementById('vehicle'), 
+        time = document.getElementById('tour-time'), adults = document.getElementById('adults'), 
+        children = document.getElementById('children'), price = document.getElementById('total-price'), 
+        info = document.getElementById('info-box');
+
+      const rules = {
+        'shared_basic': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
+        'shared_ticket': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
+        'private': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
+        'german': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
+        'driver': {times: ['07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'], info: 'Rental Duration: 7 hours. Must end by 09:00 PM.'}
+      };
+
+      function update() {
+        const val = tourType.value;
+        if(!val) return;
+        vehicle.disabled = (val !== 'driver');
+        vehicle.style.opacity = (val !== 'driver') ? '0.5' : '1';
+        if(val !== 'driver') vehicle.value = 'none';
+
+        time.innerHTML = '<option value="" disabled selected>Please select a time...</option>';
+        rules[val].times.forEach(t => time.innerHTML += `<option value="${t}">${t}</option>`);
+        info.style.display = 'block'; info.innerHTML = rules[val].info;
+        calc();
+      }
+
+      function calc() {
+        const type = tourType.value, v = vehicle.value, a = parseInt(adults.value)||0, c = parseInt(children.value)||0;
+        const p = { 'shared_basic': {a:45, c:35}, 'shared_ticket': {a:140, c:125}, 'private': {a:165, c:130}, 'german': {a:140, c:110} };
+        let tot = 0, cur = 'USD';
+        if(type === 'driver') { tot = {car:100, mpv:150, van:250, minibus:350}[v]||0; }
+        else if(p[type]) { tot = (p[type].a * a) + (p[type].c * c); if(type === 'german') cur = 'EUR'; }
+        price.value = type ? `${cur} ${tot}` : "";
+      }
+
+      tourType.addEventListener('change', update);
+      vehicle.addEventListener('change', calc);
+      [adults, children].forEach(el => el.addEventListener('input', calc));
+      document.querySelectorAll('.qty-btn').forEach(btn => btn.addEventListener('click', () => {
+        let i = btn.parentElement.querySelector('input');
+        if(btn.innerText === '+') i.value++; else if(i.value > (i.id==='adults'?1:0)) i.value--;
+        calc();
+      }));
+
+      // --- 1. 啟動日曆套件 (Flatpickr) ---
+      flatpickr("#tour-date", {
+        dateFormat: "Y/m/d",    // 設定日期格式為 YYYY/MM/DD
+        allowInput: true,       // 允許使用者手動輸入，同時也可以點選日曆
+        minDate: "today"        // 限制使用者不能選擇過去的日期
+      });
+  </script>
 
 </body>
 </html>
