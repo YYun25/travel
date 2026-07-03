@@ -555,53 +555,59 @@
       <h2>Book Your Tour Now!</h2>
       <p>Fill out the inquiry form below, and we will contact you shortly.</p>
       
-      <form action="#" method="POST" id="booking-form">
-        <div class="form-group"><label>FULL NAME *</label><input type="text" id="name" class="form-control" required></div>
-        <div class="form-group"><label>PHONE NUMBER / WHATSAPP *</label><input type="tel" id="contact" class="form-control" required></div>
-        <div class="form-group"><label>EMAIL ADDRESS *</label><input type="email" id="email" class="form-control" required></div>
-        <div class="form-group"><label>PASSPORT NUMBER *</label><input type="text" id="passport" class="form-control" pattern="[a-zA-Z0-9]+" title="Alphanumeric only" required></div>
+      <form id="booking-form">
+        <div class="form-group"><label>FULL NAME *</label><input type="text" id="name" name="Full_Name" class="form-control" required></div>
+        <div class="form-group"><label>PHONE NUMBER / WHATSAPP *</label><input type="tel" id="contact" name="Phone_WhatsApp" class="form-control" required></div>
+        <div class="form-group"><label>EMAIL ADDRESS *</label><input type="email" id="email" name="Email_Address" class="form-control" required></div>
+        <div class="form-group"><label>PASSPORT NUMBER *</label><input type="text" id="passport" name="Passport_Number" class="form-control" pattern="[a-zA-Z0-9]+" title="Alphanumeric only" required></div>
 
         <div style="border: 1px solid #d5dbe3; padding: 20px; border-radius: 6px; margin-bottom: 20px; background-color: #fcfcfc;">
           <label style="font-weight:bold; color:#09264a; margin-bottom:15px; display:block; font-size:16px;">ARRIVAL INFORMATION *</label>
           <div class="form-group">
             <label for="cruise-ship" style="font-size: 13px; font-weight: bold; color: #586579;">Cruise ship:</label>
-            <input type="text" id="cruise-ship" class="form-control" placeholder="e.g., Celebrity Millennium" required>
+            <input type="text" id="cruise-ship" name="Cruise_Ship" class="form-control" placeholder="e.g., Celebrity Millennium" required>
           </div>
           <div class="form-group">
             <label for="disembark-time" style="font-size: 13px; font-weight: bold; color: #586579;">Disembarkation time:</label>
-            <input type="text" id="disembark-time" class="form-control" placeholder="e.g., 08:30" required>
+            <input type="text" id="disembark-time" name="Disembarkation_Time" class="form-control" placeholder="e.g., 08:30" required>
           </div>
           <div class="form-group">
             <label for="dropoff" style="font-size: 13px; font-weight: bold; color: #586579;">Drop off location:</label>
-            <input type="text" id="dropoff" class="form-control" placeholder="e.g., Langkawi Cruise Terminal" required>
+            <input type="text" id="dropoff" name="Dropoff_Location" class="form-control" placeholder="e.g., Langkawi Cruise Terminal" required>
           </div>
         </div>
 
         <div class="form-group"><label>PREFERRED SHORE EXCURSION *</label>
-          <select id="tour-type" class="form-control" required>
+          <select id="tour-type" name="Tour_Type" class="form-control" required>
             <option value="" disabled selected>Please select an option...</option>
-            <option value="shared_basic">Shared Tour without ticket (USD 45)</option>
-            <option value="shared_ticket">Shared Tour with tickets (USD 140)</option>
-            <option value="private">Private Tour (USD 165)</option>
-            <option value="german">German-Speaking Tour (EUR 140)</option>
-            <option value="driver">Private Driver / Transport Service</option>
+            <option value="Shared Tour without ticket">Shared Tour without ticket (USD 45)</option>
+            <option value="Shared Tour with tickets">Shared Tour with tickets (USD 140)</option>
+            <option value="Private Tour">Private Tour (USD 165)</option>
+            <option value="German-Speaking Tour">German-Speaking Tour (EUR 140)</option>
+            <option value="Private Driver / Transport Service">Private Driver / Transport Service</option>
           </select>
         </div>
         <div class="form-group"><label>PRIVATE DRIVER / VEHICLE OPTION *</label>
-          <select id="vehicle" class="form-control" disabled><option value="none" selected>None</option><option value="car">Car – USD 100</option><option value="mpv">MPV – USD 150</option><option value="van">Van – USD 250</option><option value="minibus">Mini Bus – USD 350</option></select>
+          <select id="vehicle" name="Vehicle_Option" class="form-control" disabled>
+            <option value="none" selected>None</option>
+            <option value="Car">Car – USD 100</option>
+            <option value="MPV">MPV – USD 150</option>
+            <option value="Van">Van – USD 250</option>
+            <option value="Mini Bus">Mini Bus – USD 350</option>
+          </select>
         </div>
 
-        <div class="form-group"><label>DATE *</label><input type="text" id="tour-date" class="form-control" placeholder="YYYY/MM/DD" required></div>
-        <div class="form-group"><label>TIME *</label><select id="tour-time" class="form-control" required><option value="" disabled selected>Please select a time...</option></select></div>
+        <div class="form-group"><label>DATE *</label><input type="text" id="tour-date" name="Tour_Date" class="form-control" placeholder="YYYY/MM/DD" required></div>
+        <div class="form-group"><label>TIME *</label><select id="tour-time" name="Tour_Time" class="form-control" required><option value="" disabled selected>Please select a time...</option></select></div>
         <div id="info-box" style="margin-bottom: 20px; padding: 15px; background-color: #f3f7fb; border-left: 5px solid #d71920; display: none; font-size: 14px;"></div>
 
         <div style="display: flex; gap: 20px;">
-          <div class="form-group" style="flex: 1;"><label>ADULTS *</label><div class="quantity-wrapper"><button type="button" class="qty-btn minus-adult">-</button><input type="number" id="adults" class="form-control qty-input" value="1" min="1"><button type="button" class="qty-btn plus-adult">+</button></div></div>
-          <div class="form-group" style="flex: 1;"><label>CHILDREN</label><div class="quantity-wrapper"><button type="button" class="qty-btn minus-child">-</button><input type="number" id="children" class="form-control qty-input" value="0" min="0"><button type="button" class="qty-btn plus-child">+</button></div></div>
+          <div class="form-group" style="flex: 1;"><label>ADULTS *</label><div class="quantity-wrapper"><button type="button" class="qty-btn minus-adult">-</button><input type="number" id="adults" name="Adults_Count" class="form-control qty-input" value="1" min="1"><button type="button" class="qty-btn plus-adult">+</button></div></div>
+          <div class="form-group" style="flex: 1;"><label>CHILDREN</label><div class="quantity-wrapper"><button type="button" class="qty-btn minus-child">-</button><input type="number" id="children" name="Children_Count" class="form-control qty-input" value="0" min="0"><button type="button" class="qty-btn plus-child">+</button></div></div>
         </div>
 
-        <div class="form-group"><label>PRICE *</label><input type="text" id="total-price" class="form-control" placeholder="Auto-calculated" readonly></div>
-        <div class="form-group"><label>SPECIAL REQUIREMENTS & REMARKS</label><textarea id="message" class="form-control" placeholder="Tell us your ship name, arrival/departure schedules, dietary restrictions, or total guests..."></textarea></div>
+        <div class="form-group"><label>PRICE *</label><input type="text" id="total-price" name="Total_Price" class="form-control" placeholder="Auto-calculated" readonly></div>
+        <div class="form-group"><label>SPECIAL REQUIREMENTS & REMARKS</label><textarea id="message" name="Special_Requirements" class="form-control" placeholder="Tell us your ship name, arrival/departure schedules, dietary restrictions, or total guests..."></textarea></div>
         
         <div class="form-group" style="margin-top: 25px; margin-bottom: 20px; font-size: 14px;">
           <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #435166;">
@@ -622,6 +628,16 @@
     <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">ON TIME RETURN TO YOUR SHIP IS OUR PROMISE. Relax and enjoy your day!</p>
   </footer>
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+        // 這裡填入您的 Public Key
+        emailjs.init({
+          publicKey: "2hG_p3dGykBjo7913",
+        });
+    })();
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
       const tourType = document.getElementById('tour-type'), vehicle = document.getElementById('vehicle'), 
@@ -633,32 +649,51 @@
       flatpickr(dateInput, { dateFormat: "Y/m/d", allowInput: true, minDate: "today" });
 
       const rules = {
-        'shared_basic': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
-        'shared_ticket': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
-        'private': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
-        'german': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: 6 hours. Pickup: Cruise pier.'},
-        'driver': {times: ['07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'], info: 'Rental Duration: 7 hours. Must end by 09:00 PM.'}
+        'Shared Tour without ticket': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
+        'Shared Tour with tickets': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
+        'Private Tour': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
+        'German-Speaking Tour': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: Ca. 6 Stunden. Pickup: Langkawi cruise pier.'},
+        'Private Driver / Transport Service': {times: ['07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'], info: 'Rental Duration: 7 hours. Must end by 09:00 PM.'}
       };
 
       function update() {
         const val = tourType.value;
         if(!val) return;
-        vehicle.disabled = (val !== 'driver');
-        vehicle.style.opacity = (val !== 'driver') ? '0.5' : '1';
-        if(val !== 'driver') vehicle.value = 'none';
+        
+        const isDriverService = (val === 'Private Driver / Transport Service');
+        vehicle.disabled = !isDriverService;
+        vehicle.style.opacity = !isDriverService ? '0.5' : '1';
+        if(!isDriverService) vehicle.value = 'none';
 
         time.innerHTML = '<option value="" disabled selected>Please select a time...</option>';
-        rules[val].times.forEach(t => time.innerHTML += `<option value="${t}">${t}</option>`);
-        info.style.display = 'block'; info.innerHTML = rules[val].info;
+        if(rules[val]) {
+          rules[val].times.forEach(t => time.innerHTML += `<option value="${t}">${t}</option>`);
+          info.style.display = 'block'; 
+          info.innerHTML = rules[val].info;
+        }
         calc();
       }
 
       function calc() {
         const type = tourType.value, v = vehicle.value, a = parseInt(adults.value)||0, c = parseInt(children.value)||0;
-        const p = { 'shared_basic': {a:45, c:35}, 'shared_ticket': {a:140, c:125}, 'private': {a:165, c:130}, 'german': {a:140, c:110} };
+        
+        const p = { 
+          'Shared Tour without ticket': {a:45, c:35}, 
+          'Shared Tour with tickets': {a:140, c:125}, 
+          'Private Tour': {a:165, c:130}, 
+          'German-Speaking Tour': {a:140, c:110} 
+        };
+        
         let tot = 0, cur = 'USD';
-        if(type === 'driver') { tot = {car:100, mpv:150, van:250, minibus:350}[v]||0; }
-        else if(p[type]) { tot = (p[type].a * a) + (p[type].c * c); if(type === 'german') cur = 'EUR'; }
+        
+        if(type === 'Private Driver / Transport Service') { 
+          const vehiclePrices = {'Car': 100, 'MPV': 150, 'Van': 250, 'Mini Bus': 350};
+          tot = vehiclePrices[v] || 0; 
+        }
+        else if(p[type]) { 
+          tot = (p[type].a * a) + (p[type].c * c); 
+          if(type === 'German-Speaking Tour') cur = 'EUR'; 
+        }
         price.value = type ? `${cur} ${tot}` : "";
       }
 
@@ -671,16 +706,39 @@
         calc();
       }));
 
-      // 在 calc() 之後，加入此驗證邏輯
+      // === EmailJS 送出邏輯 ===
       document.getElementById('booking-form').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
         const dateValue = dateInput.value;
-        // 檢查是否為 YYYY/MM/DD 格式
         const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
         
         if (!dateRegex.test(dateValue)) {
-          e.preventDefault(); // 阻止送出
-          alert("請輸入正確的日期格式 (YYYY/MM/DD)");
+          alert("Please enter the correct date format (YYYY/MM/DD)");
+          return;
         }
+
+        // 改變按鈕狀態，防止重複點擊
+        const submitBtn = document.querySelector('.submit-btn');
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = "SENDING...";
+        submitBtn.disabled = true;
+
+        // 使用 EmailJS 送出表單資料 (請填入您的 Service ID，Template ID 已經幫您寫好了)
+        emailjs.sendForm('service_668gqg7', 'template_fdfz2o5', '#booking-form')
+          .then(() => {
+            alert("Booking inquiry sent successfully! A confirmation email has been sent to you.");
+            document.getElementById('booking-form').reset();
+            calc(); 
+          })
+          .catch((error) => {
+            console.error('FAILED...', error);
+            alert("Failed to send inquiry. Please try again or contact us via WhatsApp.");
+          })
+          .finally(() => {
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+          });
       });
   </script>
 
