@@ -549,18 +549,18 @@
       const tourTypeVal = tourType.value;
       const vehicleVal = vehicle.value;
 
-      // 如果選擇了 Private Driver，但車輛為空 (value="")
-      if (tourTypeVal === 'Private Driver / Transport Service' && vehicleVal === "") {
+      // 針對 Private Driver 的自定義檢查
+      if (tourTypeVal === 'Private Driver / Transport Service' && (vehicleVal === "" || vehicleVal === "none")) {
         vehicle.setCustomValidity("Please select a vehicle type for this service.");
       } else {
-        vehicle.setCustomValidity(""); // 清除錯誤
+        vehicle.setCustomValidity("");
       }
 
-      // 檢查所有必填欄位 (包含 customValidity 的檢查)
+      // 檢查驗證：包含必填、格式與自定義驗證
       if (!this.checkValidity()) {
         e.preventDefault();
-        this.classList.add('show-errors'); // 觸發紅色框框
-        this.reportValidity();
+        this.classList.add('show-errors'); // 觸發紅色框框樣式
+        this.reportValidity(); // 觸發瀏覽器原生提示 (手機電腦均適用)
         
         const firstInvalid = this.querySelector(':invalid');
         if (firstInvalid) {
@@ -570,7 +570,7 @@
         return;
       }
       
-      // 通過驗證後的提交邏輯 (請維持您原本的 fetch)
+      // 通過驗證後的提交邏輯
       e.preventDefault();
       const submitBtn = this.querySelector('.submit-btn');
       submitBtn.innerText = "SENDING...";
@@ -585,9 +585,10 @@
       })
       .then(res => res.text())
       .then(() => {
-        // 顯示您的貼心提示
+        // --- 您原本的貼心提醒已恢復 ---
         alert("Booking inquiry sent successfully!\n\nPlease check your inbox for the booking details.\nIf you don't see it, please check your Spam/Junk folder and remember to mark the email as 'Not Spam' to ensure you receive future updates.");
         bookingForm.reset();
+        this.classList.remove('show-errors'); // 成功後移除紅框
       })
       .catch(error => {
         console.error('Error:', error);
