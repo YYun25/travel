@@ -13,7 +13,14 @@
     a { color: inherit; text-decoration: none; }
     
     /* 修正手機版日期輸入框，確保原生 UI 不會跑版 */
-    input[type="date"].form-control { appearance: auto !important; background: #fff !important; height: 45px; }
+    input[type="date"].form-control {
+      appearance: auto !important; /* 讓手機瀏覽器使用內建樣式 */
+      background: #fff !important;
+      height: 45px;
+      line-height: normal; /* 確保文字垂直置中 */
+      padding: 10px;       /* 避免過多間距 */
+      width: 100%;
+    }
 
     /* --- 導覽列 Navbar --- */
     .nav { height: 82px; padding: 0 6%; display: flex; align-items: center; justify-content: space-between; position: absolute; top: 0; left: 0; right: 0; z-index: 10; color: #fff; background: rgba(9, 38, 74, 0.85); backdrop-filter: blur(5px); }
@@ -578,16 +585,18 @@
 
     // 3. 其他原本的邏輯 (日期選擇、計算價格等)
     const dateInput = document.getElementById('tour-date');
-    // 偵測是否為行動裝置
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+    // 針對手機版：移除可能影響外觀的 class 或強制重新指定樣式
     if (isMobile) {
-      // 手機版：移除 flatpickr，改用原生 date input，並設定最小日期
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.setAttribute('min', today);
+      dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
       dateInput.type = 'date';
+      // 移除 flatpickr 如果它已經被綁定
+      if (dateInput._flatpickr) {
+        dateInput._flatpickr.destroy();
+      }
     } else {
-      // 電腦版：使用 flatpickr，維持您原本的精美樣式
+      // 電腦版才載入 flatpickr
       flatpickr(dateInput, { 
         dateFormat: "Y/m/d", 
         allowInput: true, 
