@@ -160,11 +160,13 @@
       .quantity-wrapper { justify-content: center; }
     }
     @media (max-width: 600px) {
-      /* 強制將 flatpickr 彈出視窗居中或滿版，避免偏移 */
       .flatpickr-calendar {
-        width: 90% !important;
-        left: 5% !important;
-        right: 5% !important;
+        width: 90vw !important; /* 相對於視窗寬度 */
+        left: 5vw !important;
+        position: fixed !important; /* 強制固定定位 */
+        top: 50% !important;
+        transform: translateY(-50%); /* 強制置中 */
+        margin: 0 !important;
       }
     }
   </style>
@@ -539,12 +541,17 @@
     const bookingForm = document.getElementById('booking-form');
 
     bookingForm.addEventListener('submit', function(e) {
-      // 增加驗證邏輯
+      // 1. 邏輯檢查：車輛驗證
       if (tourType.value === 'Private Driver / Transport Service' && vehicle.value === 'none') {
         e.preventDefault();
-        alert("Please select a specific vehicle type for the Private Driver service.");
-        vehicle.focus();
+        alert("Error: Please select a vehicle type for the Private Driver service.");
+        vehicle.focus(); // 焦點跳回車輛選單
         return;
+      }
+
+      // 2. 瀏覽器原生驗證檢查 (檢查其他 required 欄位)
+      if (!this.checkValidity()) {
+        return; // 瀏覽器會自動聚焦到第一個沒填的欄位
       }
             
       e.preventDefault();
