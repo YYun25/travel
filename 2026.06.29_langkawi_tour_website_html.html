@@ -159,6 +159,14 @@
       .features-grid { grid-template-columns: 1fr; } /* 表單的打勾列表改為單排 */
       .quantity-wrapper { justify-content: center; }
     }
+    @media (max-width: 600px) {
+      /* 強制將 flatpickr 彈出視窗居中或滿版，避免偏移 */
+      .flatpickr-calendar {
+        width: 90% !important;
+        left: 5% !important;
+        right: 5% !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -531,6 +539,14 @@
     const bookingForm = document.getElementById('booking-form');
 
     bookingForm.addEventListener('submit', function(e) {
+      // 增加驗證邏輯
+      if (tourType.value === 'Private Driver / Transport Service' && vehicle.value === 'none') {
+        e.preventDefault();
+        alert("Please select a specific vehicle type for the Private Driver service.");
+        vehicle.focus();
+        return;
+      }
+            
       e.preventDefault();
       
       const submitBtn = this.querySelector('.submit-btn');
