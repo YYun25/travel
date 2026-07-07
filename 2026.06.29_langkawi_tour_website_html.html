@@ -518,124 +518,111 @@
     <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">ON TIME RETURN TO YOUR SHIP IS OUR PROMISE. Relax and enjoy your day!</p>
   </footer>
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function(){ emailjs.init({ publicKey: "2hG_p3dGykBjo7913", }); })();
-  </script>
-
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
-      // 導覽列漢堡選單切換腳本
-      document.getElementById('menuToggle').addEventListener('click', function() {
-        document.querySelector('.nav-menu').classList.toggle('active');
-        document.querySelector('.nav-actions').classList.toggle('active');
+    // 1. 導覽列漢堡選單切換 (保持不變)
+    document.getElementById('menuToggle').addEventListener('click', function() {
+      document.querySelector('.nav-menu').classList.toggle('active');
+      document.querySelector('.nav-actions').classList.toggle('active');
+    });
+
+    // 2. 預約表單邏輯 (已移除 EmailJS，改用 GAS API)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCNC6AxxxLT9dBEmeMCIvVAsdUC7l4GWFclaTt8-XIb7x3yOq6iWTaQJ_-sT0iQfHr2g/exec"; // 請確認網址正確
+    const bookingForm = document.getElementById('booking-form');
+
+    bookingForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('.submit-btn');
+      submitBtn.innerText = "SENDING..."; // 按鈕顯示 Sending...
+      submitBtn.disabled = true;
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      // 使用 fetch 發送
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(() => {
+        // 顯示您的貼心提示
+        alert("Booking inquiry sent successfully!\n\nPlease check your inbox for the booking details.\nIf you don't see it, please check your Spam/Junk folder and remember to mark the email as 'Not Spam' to ensure you receive future updates.");
+        bookingForm.reset();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("Something went wrong. Please try again.");
+      })
+      .finally(() => {
+        submitBtn.innerText = "SEND BOOKING INQUIRY";
+        submitBtn.disabled = false;
       });
-      // 點擊導覽列連結後自動收合選單
-      document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-          document.querySelector('.nav-menu').classList.remove('active');
-          document.querySelector('.nav-actions').classList.remove('active');
-        });
-      });
+    });
 
-      const tourType = document.getElementById('tour-type'), vehicle = document.getElementById('vehicle'), 
-        time = document.getElementById('tour-time'), adults = document.getElementById('adults'), 
-        children = document.getElementById('children'), price = document.getElementById('total-price'), 
-        info = document.getElementById('info-box'), dateInput = document.getElementById('tour-date');
+    // 3. 其他原本的邏輯 (日期選擇、計算價格等)
+    const dateInput = document.getElementById('tour-date');
+    flatpickr(dateInput, { dateFormat: "Y/m/d", allowInput: true, minDate: "today" });
 
-      // 初始化日曆
-      flatpickr(dateInput, { dateFormat: "Y/m/d", allowInput: true, minDate: "today" });
+    const tourType = document.getElementById('tour-type'), 
+          vehicle = document.getElementById('vehicle'), 
+          time = document.getElementById('tour-time'), 
+          adults = document.getElementById('adults'), 
+          children = document.getElementById('children'), 
+          price = document.getElementById('total-price'), 
+          info = document.getElementById('info-box');
 
-      const rules = {
-        'Shared Tour without ticket': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
-        'Shared Tour with tickets': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
-        'Private Tour': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
-        'German-Speaking Tour': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: Ca. 6 Stunden. Pickup: Langkawi cruise pier.'},
-        'Private Driver / Transport Service': {times: ['07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'], info: 'Rental Duration: 7 hours. Must end by 09:00 PM.'}
+    const rules = {
+      'Shared Tour without ticket': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
+      'Shared Tour with tickets': {times: ['09:00 AM', '02:00 PM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
+      'Private Tour': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: Approx. 6 hours. Pickup: Langkawi cruise pier.'},
+      'German-Speaking Tour': {times: ['08:00 AM', '09:00 AM'], info: 'Duration: Ca. 6 Stunden. Pickup: Langkawi cruise pier.'},
+      'Private Driver / Transport Service': {times: ['07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'], info: 'Rental Duration: 7 hours. Must end by 09:00 PM.'}
+    };
+
+    tourType.addEventListener('change', function() {
+      const val = this.value;
+      const isDriverService = (val === 'Private Driver / Transport Service');
+      vehicle.disabled = !isDriverService;
+      vehicle.style.opacity = !isDriverService ? '0.5' : '1';
+      if(!isDriverService) vehicle.value = 'none';
+
+      time.innerHTML = '<option value="" disabled selected>Please select a time...</option>';
+      if(rules[val]) {
+        rules[val].times.forEach(t => time.innerHTML += `<option value="${t}">${t}</option>`);
+        info.style.display = 'block'; 
+        info.innerHTML = rules[val].info;
+      }
+      calc();
+    });
+
+    function calc() {
+      const type = tourType.value, v = vehicle.value, a = parseInt(adults.value)||0, c = parseInt(children.value)||0;
+      const p = { 
+        'Shared Tour without ticket': {a:45, c:35}, 
+        'Shared Tour with tickets': {a:140, c:125}, 
+        'Private Tour': {a:165, c:130}, 
+        'German-Speaking Tour': {a:140, c:110} 
       };
-
-      function update() {
-        const val = tourType.value;
-        if(!val) return;
-        
-        const isDriverService = (val === 'Private Driver / Transport Service');
-        vehicle.disabled = !isDriverService;
-        vehicle.style.opacity = !isDriverService ? '0.5' : '1';
-        if(!isDriverService) vehicle.value = 'none';
-
-        time.innerHTML = '<option value="" disabled selected>Please select a time...</option>';
-        if(rules[val]) {
-          rules[val].times.forEach(t => time.innerHTML += `<option value="${t}">${t}</option>`);
-          info.style.display = 'block'; 
-          info.innerHTML = rules[val].info;
-        }
-        calc();
+      let tot = 0, cur = 'USD';
+      if(type === 'Private Driver / Transport Service') { 
+        const vehiclePrices = {'Car': 100, 'MPV': 150, 'Van': 250, 'Mini Bus': 350};
+        tot = vehiclePrices[v] || 0; 
+      } else if(p[type]) { 
+        tot = (p[type].a * a) + (p[type].c * c); 
+        if(type === 'German-Speaking Tour') cur = 'EUR'; 
       }
-
-      function calc() {
-        const type = tourType.value, v = vehicle.value, a = parseInt(adults.value)||0, c = parseInt(children.value)||0;
-        
-        const p = { 
-          'Shared Tour without ticket': {a:45, c:35}, 
-          'Shared Tour with tickets': {a:140, c:125}, 
-          'Private Tour': {a:165, c:130}, 
-          'German-Speaking Tour': {a:140, c:110} 
-        };
-        
-        let tot = 0, cur = 'USD';
-        
-        if(type === 'Private Driver / Transport Service') { 
-          const vehiclePrices = {'Car': 100, 'MPV': 150, 'Van': 250, 'Mini Bus': 350};
-          tot = vehiclePrices[v] || 0; 
-        }
-        else if(p[type]) { 
-          tot = (p[type].a * a) + (p[type].c * c); 
-          if(type === 'German-Speaking Tour') cur = 'EUR'; 
-        }
-        price.value = type ? `${cur} ${tot}` : "";
-      }
-
-      tourType.addEventListener('change', update);
-      vehicle.addEventListener('change', calc);
-      [adults, children].forEach(el => el.addEventListener('input', calc));
-      document.querySelectorAll('.qty-btn').forEach(btn => btn.addEventListener('click', function() {
-        let i = this.parentElement.querySelector('input');
-        if(this.innerText === '+') i.value++; else if(i.value > (i.id==='adults'?1:0)) i.value--;
-        calc();
-      }));
-
-      // EmailJS 送出邏輯
-      document.getElementById('booking-form').addEventListener('submit', function(e) {
-        e.preventDefault(); 
-
-        const dateValue = dateInput.value;
-        const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
-        
-        if (!dateRegex.test(dateValue)) {
-          alert("Please enter the correct date format (YYYY/MM/DD)");
-          return;
-        }
-
-        const submitBtn = document.querySelector('.submit-btn');
-        const originalText = submitBtn.innerText;
-        submitBtn.innerText = "SENDING...";
-        submitBtn.disabled = true;
-
-        emailjs.sendForm('service_668gqg7', 'template_fdfz2o5', '#booking-form')
-          .then(() => {
-            alert("Booking inquiry sent successfully! A confirmation email has been sent to you.");
-            document.getElementById('booking-form').reset();
-            calc(); 
-          })
-          .catch((error) => {
-            console.error('FAILED...', error);
-            alert("Failed to send inquiry. Please try again or contact us via WhatsApp.");
-          })
-          .finally(() => {
-            submitBtn.innerText = originalText;
-            submitBtn.disabled = false;
-          });
-      });
+      price.value = type ? `${cur} ${tot}` : "";
+    }
+    
+    vehicle.addEventListener('change', calc);
+    [adults, children].forEach(el => el.addEventListener('input', calc));
+    document.querySelectorAll('.qty-btn').forEach(btn => btn.addEventListener('click', function() {
+      let i = this.parentElement.querySelector('input');
+      if(this.innerText === '+') i.value++; else if(i.value > (i.id==='adults'?1:0)) i.value--;
+      calc();
+    }));
   </script>
 </body>
 </html>
