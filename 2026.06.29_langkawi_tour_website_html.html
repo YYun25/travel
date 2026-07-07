@@ -12,13 +12,13 @@
     body { font-family: Arial, Helvetica, sans-serif; color: #09264a; background: #fff; line-height: 1.55; overflow-x: hidden; width: 100%; }
     a { color: inherit; text-decoration: none; }
     
-    /* 修正手機版日期輸入框，確保原生 UI 不會跑版 */
+    /* 修正手機版日期輸入框 */
     input[type="date"].form-control {
-      appearance: auto !important; /* 讓手機瀏覽器使用內建樣式 */
+      appearance: auto !important;
       background: #fff !important;
       height: 45px;
-      line-height: normal; /* 確保文字垂直置中 */
-      padding: 10px;       /* 避免過多間距 */
+      line-height: normal;
+      padding: 10px;
       width: 100%;
     }
 
@@ -541,28 +541,38 @@
     const bookingForm = document.getElementById('booking-form');
 
     bookingForm.addEventListener('submit', function(e) {
-     e.preventDefault(); // 先攔截送出
+      e.preventDefault();
 
-      // 1. 自定義驗證：Private Driver 方案必須選車
+      // 1. 自定義邏輯驗證
       if (tourType.value === 'Private Driver / Transport Service' && vehicle.value === 'none') {
         vehicle.setCustomValidity("Please select a specific vehicle type.");
       } else {
-        vehicle.setCustomValidity(""); // 清除錯誤
+        vehicle.setCustomValidity("");
       }
 
-      // 2. 觸發原生驗證 (如果有錯，瀏覽器會自動跳到該欄位並顯示提示)
-      if (!this.reportValidity()) {
-        return; // 若驗證失敗，直接中斷，瀏覽器會處理聚焦
+      // 2. 使用 checkValidity 進行檢查
+      if (!this.checkValidity()) {
+        // 若檢查未通過，自動觸發瀏覽器的錯誤提示
+        this.reportValidity();
+        
+        // 選取第一個錯誤的欄位並滾動到它
+        const firstInvalid = this.querySelector(':invalid');
+        if (firstInvalid) {
+          firstInvalid.focus();
+          // 如果有捲動需求，可加入此行
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
       }
-      
+
+      // 驗證通過後才執行後續的 fetch 邏輯
       const submitBtn = this.querySelector('.submit-btn');
-      submitBtn.innerText = "SENDING..."; // 按鈕顯示 Sending...
+      submitBtn.innerText = "SENDING...";
       submitBtn.disabled = true;
 
       const formData = new FormData(this);
       const data = Object.fromEntries(formData.entries());
 
-      // 使用 fetch 發送
       fetch(SCRIPT_URL, {
         method: 'POST',
         body: JSON.stringify(data)
