@@ -160,13 +160,19 @@
       .quantity-wrapper { justify-content: center; }
     }
     @media (max-width: 600px) {
+      /* 將日曆彈出視窗固定在螢幕中央 */
       .flatpickr-calendar {
-        width: 90vw !important; /* 相對於視窗寬度 */
-        left: 5vw !important;
-        position: fixed !important; /* 強制固定定位 */
+        position: fixed !important;
         top: 50% !important;
-        transform: translateY(-50%); /* 強制置中 */
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90vw !important;
+        z-index: 9999 !important; /* 確保在最上層 */
         margin: 0 !important;
+      }
+      /* 讓背景變暗，聚焦在日曆上 */
+      .flatpickr-calendar.open {
+        display: block !important;
       }
     }
   </style>
@@ -541,20 +547,19 @@
     const bookingForm = document.getElementById('booking-form');
 
     bookingForm.addEventListener('submit', function(e) {
-      // 1. 邏輯檢查：車輛驗證
+     e.preventDefault(); // 先攔截送出
+
+      // 1. 自定義驗證：Private Driver 方案必須選車
       if (tourType.value === 'Private Driver / Transport Service' && vehicle.value === 'none') {
-        e.preventDefault();
-        alert("Error: Please select a vehicle type for the Private Driver service.");
-        vehicle.focus(); // 焦點跳回車輛選單
-        return;
+        vehicle.setCustomValidity("Please select a specific vehicle type.");
+      } else {
+        vehicle.setCustomValidity(""); // 清除錯誤
       }
 
-      // 2. 瀏覽器原生驗證檢查 (檢查其他 required 欄位)
-      if (!this.checkValidity()) {
-        return; // 瀏覽器會自動聚焦到第一個沒填的欄位
+      // 2. 觸發原生驗證 (如果有錯，瀏覽器會自動跳到該欄位並顯示提示)
+      if (!this.reportValidity()) {
+        return; // 若驗證失敗，直接中斷，瀏覽器會處理聚焦
       }
-            
-      e.preventDefault();
       
       const submitBtn = this.querySelector('.submit-btn');
       submitBtn.innerText = "SENDING..."; // 按鈕顯示 Sending...
